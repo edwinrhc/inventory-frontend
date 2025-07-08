@@ -22,6 +22,8 @@ export class LoginComponent {
     password: ['', Validators.required]
   });
 
+  errorMessage: string | null = null;
+
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
@@ -29,15 +31,23 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
-    console.log('onSubmit ejecutado, valor form:', this.loginForm.value);
+    // console.log('onSubmit ejecutado, valor form:', this.loginForm.value);
+    this.errorMessage = null;
+
     if (this.loginForm.invalid) return;
+
     // @ts-ignore
     this.auth.login(this.loginForm.value).subscribe({
       next: res => {
-        console.log('Token (component):', res.access_token);
+        // console.log('Token (component):', res.access_token);
         this.router.navigate(['/products']);
       },
-      error: err => console.error('Error al loguear:', err)
+      error: err => {
+        // Capturamos mensaje desde el backend o genérico
+        this.errorMessage = err.error?.message  || 'Ocurrió un error al iniciar sesión. Intenta más tarde.';
+        console.error('Error al loguear:', err)
+        setTimeout(() => this.errorMessage = null, 5000);
+      }
     });
   }
 
