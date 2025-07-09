@@ -1,14 +1,2 @@
-<nav *ngIf="auth.isLoggedIn()" class="bg-gray-800 text-white p-4 flex items-center">
-  <a routerLink="/products" class="mr-6 hover:underline">Productos</a>
-  <a routerLink="/inventory" class="mr-6 hover:underline">Inventario</a>
-  <div class="ml-auto">
-    <button
-      (click)="logout()"
-      class="bg-red-600 px-3 py-1 rounded hover:bg-red-700"
-    >
-      Cerrar sesión
-    </button>
-  </div>
-</nav>
 
 <router-outlet></router-outlet>

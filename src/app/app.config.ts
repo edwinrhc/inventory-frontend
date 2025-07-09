@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
