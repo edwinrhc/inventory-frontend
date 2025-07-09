@@ -4,11 +4,12 @@ import {ProductsService} from "../../core/services/products.service";
 import {CommonModule} from "@angular/common";
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+import {LucideAngularModule,Plus,Trash2,SquarePen   } from "lucide-angular";
 
 @Component({
   selector: 'app-products-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,LucideAngularModule],
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css'
 })
@@ -19,7 +20,12 @@ export class ProductsListComponent implements OnInit{
   currentPage: number = 1;
   pageSize: number = 10;
 
-  constructor(private svc: ProductsService, private router: Router) {}
+  readonly Plus = Plus;
+  readonly Trash2  = Trash2 ;
+  readonly SquarePen  = SquarePen ;
+
+  constructor(private svc: ProductsService,
+              protected router: Router) {}
 
   ngOnInit(): void {
     this.svc.list().subscribe({
@@ -50,7 +56,17 @@ export class ProductsListComponent implements OnInit{
   }
 
   goToCreateProduct(): void {
-    this.router.navigate(['/products/create']); // ajusta según tu ruta real
+    this.router.navigate(['products','create']); // ajusta según tu ruta real
+  }
+
+  onDelete(id:string):void{
+    if(!confirm('¿Seguro que quieres eliminar este producto?')){
+      return;
+    }
+    this.svc.remove(id).subscribe(() => {
+
+      this.products = this.products.filter(p => p.id !== id);
+    })
   }
 
 

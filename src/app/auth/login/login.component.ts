@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import {Component} from '@angular/core';
+import {ReactiveFormsModule, FormBuilder, Validators} from '@angular/forms';
 import {CommonModule} from "@angular/common";
 import {Router, RouterModule} from "@angular/router";
 import {AuthService} from "../../core/services/auth.service";
+import {AbstractControl} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -23,17 +24,27 @@ export class LoginComponent {
   });
 
   errorMessage: string | null = null;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router
-  ) {}
+  ) {
+  }
+
+  get username(): AbstractControl {
+    return this.loginForm.get('username')!;
+  }
+  get password(): AbstractControl {
+    return this.loginForm.get('password')!;
+  }
 
   onSubmit() {
+    this.submitted = true;
     // console.log('onSubmit ejecutado, valor form:', this.loginForm.value);
     this.errorMessage = null;
-
+    this.loginForm.markAllAsTouched();
     if (this.loginForm.invalid) return;
 
     // @ts-ignore
@@ -44,7 +55,7 @@ export class LoginComponent {
       },
       error: err => {
         // Capturamos mensaje desde el backend o genérico
-        this.errorMessage = err.error?.message  || 'Ocurrió un error al iniciar sesión. Intenta más tarde.';
+        this.errorMessage = err.error?.message || 'Ocurrió un error al iniciar sesión. Intenta más tarde.';
         console.error('Error al loguear:', err)
         setTimeout(() => this.errorMessage = null, 5000);
       }

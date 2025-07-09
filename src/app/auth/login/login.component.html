@@ -9,13 +9,32 @@
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <label class="block mb-2">Usuario</label>
-    <input formControlName="username" type="text"
-           class="w-full p-2 border rounded mb-4" />
+    <input
+      formControlName="username"
+      type="text"
+      required
+      class="w-full p-2 border rounded mb-1"
+      [class.border-red-500]="username.invalid && username.touched"
+    />
+    <div *ngIf="username.invalid && username.touched" class="text-red-600 text-sm mb-4">
+      <div *ngIf="username.errors?.['required']">El usuario es obligatorio.</div>
+    </div>
     <label class="block mb-2">Contraseña</label>
-    <input formControlName="password" type="password"
-           class="w-full p-2 border rounded mb-4" />
-    <button type="submit" [disabled]="loginForm.invalid"
-            class="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+    <input
+      formControlName="password"
+      type="password"
+      required
+      class="w-full p-2 border rounded mb-1"
+      [class.border-red-500]="password.invalid && password.touched"
+    />
+    <div *ngIf="password.invalid && password.touched" class="text-red-600 text-sm mb-4">
+      <div *ngIf="password.errors?.['required']">El password es obligatorio.</div>
+    </div>
+    <button
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+    >
       Entrar
     </button>
   </form>
