@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {tap} from "rxjs";
-import {AuthResponse} from "../models/auth-response";
+import {AuthResponse} from "../models/auth/auth-response";
 
 
 

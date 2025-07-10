@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
-import {Product} from "../../core/models/product";
+import {Product} from "../../core/models/product/product";
 import {ProductsService} from "../../core/services/products.service";
-import {UpdateProductoDto} from "../../core/models/update-producto.dto";
+import {UpdateProductoDto} from "../../core/models/product/dto/update-producto.dto";
 
 
 @Component({
