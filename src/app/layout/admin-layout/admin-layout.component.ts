@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {Router, RouterModule} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {AuthService} from "../../core/services/auth.service";
-import {FileIcon, LucideAngularModule, Package} from "lucide-angular";
+import {FileIcon, LucideAngularModule, Package,ChevronDown } from "lucide-angular";
 
 
 
@@ -22,6 +22,9 @@ export class AdminLayoutComponent implements OnInit{
 
 
   isSidebarOpen = true;
+
+  inventoryOpen = false;
+  readonly ChevronDown = ChevronDown;
 
   private auth = inject(AuthService);
   private router = inject(Router);
