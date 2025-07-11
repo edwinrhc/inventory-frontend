@@ -45,6 +45,29 @@ export const routes: Routes = [
         ],
       },
       {
+        path: 'product-types',
+        children:[
+          {
+            path: '',
+            loadComponent: () =>
+              import('./product-type/product-type-list/product-type-list.component')
+                .then(m => m.ProductTypeListComponent),
+          },
+          {
+            path: 'create',
+            loadComponent: () =>
+              import('./product-type/product-type-create/product-type-create.component')
+                .then(m => m.ProductTypeCreateComponent),
+          },
+          {
+            path: ':id/edit',
+            loadComponent: () =>
+              import('./product-type/product-type-edit/product-type-edit.component')
+                .then(m => m.ProductTypeEditComponent),
+          },
+        ]
+      },
+      {
         path: '',
         redirectTo: 'products',
         pathMatch: 'full',
