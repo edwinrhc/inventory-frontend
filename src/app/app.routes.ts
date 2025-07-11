@@ -68,6 +68,30 @@ export const routes: Routes = [
         ]
       },
       {
+        path: 'inventory',
+        children:[
+          {
+            path: 'ingreso',
+            loadComponent: () =>
+              import('./inventory/inventory-document/inventory-document.component')
+                .then(m => m.InventoryDocumentComponent),
+            data: { movementType: 'IN' }
+          },
+          {
+            path: 'salida',
+            loadComponent: () =>
+              import('./inventory/inventory-document/inventory-document.component')
+                .then(m => m.InventoryDocumentComponent),
+            data: { movementType: 'OUT' }
+          },
+          {
+            path: '',
+            redirectTo: 'ingreso',
+            pathMatch: 'full'
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: 'products',
         pathMatch: 'full',

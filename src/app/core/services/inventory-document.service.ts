@@ -16,24 +16,24 @@ export class InventoryDocumentService {
 
   constructor(private http: HttpClient ) { }
 
-  list(){
-    return this.http.get<InventoryDocument[]>(`${this.base}`);
+  list(): Observable<InventoryDocument[]> {
+    return this.http.get<InventoryDocument[]>(this.base);
   }
 
-  get(id: string): Observable<InventoryDocument>{
+  get(id: string): Observable<InventoryDocument> {
     return this.http.get<InventoryDocument>(`${this.base}/${id}`);
   }
 
-  create(dto: CreateInventoryDocumentDto ): Observable<InventoryDocument>{
-    return this.http.post<InventoryDocument>(`${this.base}`, dto);
+
+  create(doc: Omit<InventoryDocument, 'id'>): Observable<InventoryDocument> {
+    return this.http.post<InventoryDocument>(this.base, doc);
   }
 
-
-  update(id: string, dto: UpdateInventoryDocumentDto): Observable<InventoryDocument>{
-    return this.http.patch<InventoryDocument>(`${this.base}/${id}`, dto);
+  update(id: string, doc: Partial<Omit<InventoryDocument, 'id'>>): Observable<InventoryDocument> {
+    return this.http.patch<InventoryDocument>(`${this.base}/${id}`, doc);
   }
 
-  remove(id: string): Observable<void>{
+  remove(id: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/${id}`);
   }
 

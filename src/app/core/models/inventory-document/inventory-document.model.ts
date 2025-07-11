@@ -10,7 +10,7 @@ export interface InventoryLine{
 }
 
 export interface InventoryDocument{
-  id?: string;
+
   type: 'IN'| 'OUT';
   reference: string;
   date: string;

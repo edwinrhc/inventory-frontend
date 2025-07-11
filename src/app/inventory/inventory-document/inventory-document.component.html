@@ -1,0 +1,115 @@
+<div class="max-w-3xl mx-auto mt-8 p-6 bg-white rounded-lg shadow">
+  <h2 class="text-2xl font-bold mb-4">
+    {{ movementType === 'IN' ? 'Registrar Ingreso' : 'Registrar Salida' }}
+  </h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Metadatos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+      <div>
+        <label class="block mb-1">Fecha</label>
+        <input
+          type="date"
+          formControlName="date"
+          class="w-full border rounded px-2 py-1"
+        />
+      </div>
+      <div>
+        <label class="block mb-1">Referencia</label>
+        <input
+          formControlName="reference"
+          class="w-full border rounded px-2 py-1"
+        />
+      </div>
+      <div class="sm:col-span-2">
+        <label class="block mb-1">Notas</label>
+        <textarea
+          formControlName="notes"
+          rows="2"
+          class="w-full border rounded px-2 py-1"
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Líneas -->
+    <div formArrayName="lines" class="space-y-4 mb-6">
+      <div
+        *ngFor="let line of lines.controls; let i = index"
+        [formGroupName]="i"
+        class="grid grid-cols-12 gap-2 items-end"
+      >
+        <!-- Producto -->
+        <div class="col-span-5">
+          <label class="block mb-1">Producto</label>
+          <select
+            formControlName="productId"
+            class="w-full border rounded px-2 py-1"
+          >
+            <option [ngValue]="null" disabled>-- Selecciona --</option>
+            <option
+              *ngFor="let p of products"
+              [value]="p.id"
+            >{{ p.name }}</option>
+          </select>
+        </div>
+        <!-- Cantidad -->
+        <div class="col-span-2">
+          <label class="block mb-1">Cantidad</label>
+          <input
+            type="number"
+            formControlName="quantity"
+            class="w-full border rounded px-2 py-1"
+          />
+        </div>
+        <!-- Precio unitario -->
+        <div class="col-span-3">
+          <label class="block mb-1">Precio Unit.</label>
+          <input
+            type="number"
+            formControlName="unitPrice"
+            class="w-full border rounded px-2 py-1"
+          />
+        </div>
+        <!-- Detalle -->
+        <div class="col-span-1">
+          <label class="block mb-1">Detalle</label>
+          <input
+            formControlName="detail"
+            class="w-full border rounded px-2 py-1"
+          />
+        </div>
+        <!-- Eliminar línea -->
+        <div class="col-span-1 text-center">
+          <button
+            type="button"
+            (click)="removeLine(i)"
+            class="text-red-500 hover:text-red-700"
+          >✖</button>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        (click)="addLine()"
+        class="text-blue-600 hover:underline"
+      >+ Añadir línea</button>
+    </div>
+
+    <!-- Acciones -->
+    <div class="flex justify-end gap-2">
+      <button
+        type="button"
+        (click)="router.navigate(['/inventory'])"
+        class="px-4 py-2 rounded border hover:bg-gray-100 transition"
+      >Cancelar</button>
+
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+      >
+        {{ movementType === 'IN' ? 'Registrar Ingreso' : 'Registrar Salida' }}
+      </button>
+    </div>
+  </form>
+</div>
