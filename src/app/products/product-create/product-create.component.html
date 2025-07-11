@@ -45,6 +45,20 @@
       ></textarea>
     </div>
 
+    <div class="mb-4">
+      <label for="productTypeId" class="block mb-1">Tipo de Producto</label>
+      <select
+        id="productTypeId"
+        name="productTypeId"
+        required
+        [(ngModel)]="product.productTypeId"
+        class="w-full border rounded px-3 py-2 focus:ring transition"
+      >
+        <option value="" disabled>-- Selecciona un tipo --</option>
+        <option *ngFor="let t of types" [value]="t.id">{{ t.name }}</option>
+      </select>
+    </div>
+
     <div class="flex justify-end gap-2">
       <button
         type="button"

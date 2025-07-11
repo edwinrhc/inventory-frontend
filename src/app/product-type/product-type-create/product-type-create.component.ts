@@ -14,7 +14,8 @@ import {ProductTypeService} from "../../core/services/product-type.service";
 })
 export class ProductTypeCreateComponent {
 
-  type: ProductType =  { name: '', description: '' };
+  // @ts-ignore
+  type: ProductType =  { name: '', description: ''};
 
   constructor(
     private svc: ProductTypeService,

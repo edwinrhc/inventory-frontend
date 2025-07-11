@@ -4,5 +4,6 @@ export interface CreateProductDto {
   name: string;
   description: string;  // ← agregado
   price: number;
+  productTypeId: string;
 }
 
