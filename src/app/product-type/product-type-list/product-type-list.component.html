@@ -1,1 +1,98 @@
-<p>product-type-list works!</p>
+<!-- products-list.component.html -->
+<div class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-lg">
+  <!-- Filtro y botón de creación -->
+  <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+    <input
+      type="text"
+      [(ngModel)]="filter"
+      (ngModelChange)="onFilterChange()"
+      placeholder="🔍 Buscar tipo de producto..."
+      class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+    />
+
+    <button
+      (click)="goToCreateTypeProduct()"
+      class="flex items-center gap-2 bg-green-600 text-white font-medium px-5 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+    >
+      <lucide-icon [img]="Plus " class="w-5 h-5 mr-2 text-white group-hover:text-yellow-400 transition"></lucide-icon>
+      Agregar
+    </button>
+  </div>
+
+  <!-- Título -->
+  <h1 class="text-3xl font-bold text-gray-800 mb-4">Listado de Tipo de Productos</h1>
+
+  <!-- Tabla -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white divide-y divide-gray-200 text-gray-700">
+      <thead>
+      <tr class="bg-gray-50">
+        <th class="px-6 py-3 text-left text-sm font-semibold">Nombre</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Descripción</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Estado</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Acciones</th>
+        <!--        <th class="px-6 py-3 text-center text-sm font-semibold">Acciones</th>-->
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+      <tr *ngFor="let type of t" class="hover:bg-gray-50 transition">
+
+        <td class="px-6 py-4 whitespace-nowrap">{{ type.name }}</td>
+        <td class="px-6 py-4 whitespace-nowrap">{{ type.description }}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-center">
+        <span
+          class="px-2 py-1 rounded-full text-xs font-semibold cursor-pointer"
+          [ngClass]="type.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+          (click)="toggleStatus(type)">
+            {{ type.isActive ? 'Activo' : 'Inactivo' }}
+        </span>
+        </td>
+
+        <td class="px-6 py-4 whitespace-nowrap text-center flex justify-center gap-3">
+          <button
+            (click)="router.navigate(['/product-types', type.id, 'edit'])"
+            class="flex items-center gap-0.5 bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-300 transition">
+            <lucide-icon [img]="SquarePen" class="w-4 h-4"></lucide-icon>
+          </button>
+
+          <!--          <button-->
+          <!--            (click)="onDelete(type.id)"-->
+          <!--            class="flex items-center gap-1 bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition">-->
+          <!--            <lucide-icon [img]="Trash2"> </lucide-icon>-->
+          <!--          </button>-->
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Controles de paginación -->
+  <div class="mt-4 flex justify-center items-center space-x-2">
+    <button
+      (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+    >
+      « Anterior
+    </button>
+
+    <button
+      *ngFor="let page of totalPagesArr"
+      (click)="goToPage(page)"
+      [class.font-bold]="page === currentPage"
+      class="px-3 py-1 rounded border hover:bg-gray-100"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      (click)="goToPage(currentPage + 1)"
+      [disabled]="currentPage === totalPagesArr.length"
+      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+    >
+      Siguiente »
+    </button>
+  </div>
+
+
+</div>

@@ -5,16 +5,16 @@
     <input
       type="text"
       [(ngModel)]="filter"
+      (ngModelChange)="onFilterChange()"
       placeholder="🔍 Buscar producto..."
       class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
     />
-
     <button
-      (click)="router.navigate(['products','create'])"
+      (click)="goToCreateProduct()"
       class="flex items-center gap-2 bg-green-600 text-white font-medium px-5 py-2 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
     >
-      <lucide-icon [img]="Plus "  class="w-5 h-5 mr-2 text-white group-hover:text-yellow-400 transition"></lucide-icon>
-      Nuevo producto
+      <lucide-icon [img]="Plus" class="w-5 h-5"></lucide-icon>
+      Agregar
     </button>
   </div>
 
@@ -28,36 +28,75 @@
       <tr class="bg-gray-50">
         <th class="px-6 py-3 text-left text-sm font-semibold">SKU</th>
         <th class="px-6 py-3 text-left text-sm font-semibold">Nombre</th>
-        <th class="px-6 py-3 text-right text-sm font-semibold">Precio</th>
-        <th class="px-6 py-3 text-center text-sm font-semibold">Acciones</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Tipo</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Precio</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Estado</th>
+        <th class="px-6 py-3 text-left text-sm font-semibold">Acciones</th>
       </tr>
       </thead>
       <tbody class="divide-y divide-gray-100">
-      <tr
-        *ngFor="let p of filteredProducts()"
-        class="hover:bg-gray-50 transition"
-      >
+      <tr *ngFor="let p of products" class="hover:bg-gray-50 transition">
         <td class="px-6 py-4 whitespace-nowrap">{{ p.sku }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ p.name }}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-right">
+        <td class="px-6 py-4 whitespace-nowrap">
+          {{ p.productType?.name || '—' }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-center">
           {{ p.price | currency:'S/' }}
         </td>
+        <td class="px-6 py-4 whitespace-nowrap text-center">
+  <span
+    class="px-2 py-1 rounded-full text-xs font-semibold cursor-pointer"
+    [ngClass]="p.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+    (click)="toggleStatus(p)"
+  >
+    {{ p.isActive ? 'Activo' : 'Inactivo' }}
+  </span>
+        </td>
         <td class="px-6 py-4 whitespace-nowrap text-center flex justify-center gap-3">
-          <!-- Editar -->
           <button
             (click)="router.navigate(['/products', p.id, 'edit'])"
-            class="flex items-center gap-1 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition"     >
-            <lucide-icon [img]="SquarePen"> </lucide-icon>
+            class="flex items-center gap-0.5 bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-300 transition"
+          >
+            <lucide-icon [img]="SquarePen" class="w-4 h-4"></lucide-icon>
           </button>
-
-          <button
-            (click)="onDelete(p.id)"
-            class="flex items-center gap-1 bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition">
-            <lucide-icon [img]="Trash2"> </lucide-icon>
-          </button>
+<!--          <button-->
+<!--            (click)="onDelete(p.id)"-->
+<!--            class="flex items-center gap-1 bg-red-500 text-white p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 transition"-->
+<!--          >-->
+<!--            <lucide-icon [img]="Trash2"></lucide-icon>-->
+<!--          </button>-->
         </td>
       </tr>
       </tbody>
     </table>
+  </div>
+
+  <!-- Controles de paginación -->
+  <div class="mt-4 flex justify-center items-center space-x-2">
+    <button
+      (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+    >
+      « Anterior
+    </button>
+
+    <button
+      *ngFor="let page of totalPagesArr"
+      (click)="goToPage(page)"
+      [class.font-bold]="page === currentPage"
+      class="px-3 py-1 rounded border hover:bg-gray-100"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      (click)="goToPage(currentPage + 1)"
+      [disabled]="currentPage === totalPagesArr.length"
+      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+    >
+      Siguiente »
+    </button>
   </div>
 </div>

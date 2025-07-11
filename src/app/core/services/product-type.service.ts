@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ProductType} from "../models/product-type/ProductType";
+import {PageDto} from "../models/page/page.dto";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,18 @@ export class ProductTypeService {
     private http: HttpClient
   ) { }
 
-  list(): Observable<ProductType[]>{
-    return this.http.get<ProductType[]>(`${this.base}`);
+  // list(): Observable<ProductType[]>{
+  //   return this.http.get<ProductType[]>(`${this.base}`);
+  // }
+
+  list(page: number, limit: number, filter: string): Observable<PageDto<ProductType>>{
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if(filter){
+      params = params.set('filter', filter);
+    }
+    return this.http.get<PageDto<ProductType>>(`${this.base}`, {params});
   }
 
 
@@ -31,8 +42,12 @@ export class ProductTypeService {
     return this.http.patch<ProductType>(`${this.base}/${id}`, pt);
   }
 
-  delete(id: string): Observable<void>{
+  remove(id: string): Observable<void>{
     return this.http.delete<void>(`${this.base}/${id}`);
+  }
+  updateStatus(id: string, isActive: boolean): Observable<ProductType>{
+    return this.http.patch<ProductType>(`/api/product-types/${id}/status`,
+      {isActive});
   }
 
 
