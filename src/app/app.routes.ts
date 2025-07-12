@@ -71,6 +71,12 @@ export const routes: Routes = [
         path: 'inventory',
         children:[
           {
+            path: 'list',
+            loadComponent: () =>
+              import('./inventory/inventory-document-list/inventory-document-list.component')
+                .then(m => m.InventoryDocumentListComponent),
+          },
+          {
             path: 'ingreso',
             loadComponent: () =>
               import('./inventory/inventory-document/inventory-document.component')

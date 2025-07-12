@@ -1,0 +1,133 @@
+<!--<div class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-lg shadow">-->
+<!--  <h2 class="text-2xl font-bold mb-4">Histórico de Ingresos y Salidas</h2>-->
+
+<!--  <div *ngIf="loading" class="text-center py-4">Cargando...</div>
+  <div *ngIf="error" class="text-red-600 py-4">❌ {{ error }}</div>
+
+  <table *ngIf="!loading && !error" class="min-w-full bg-white divide-y divide-gray-200 text-gray-700">
+    <thead>
+    <tr class="bg-gray-50">
+      <th class="px-4 py-2 text-left text-sm font-semibold">ID</th>
+      <th class="px-4 py-2 text-left text-sm font-semibold">Tipo</th>
+      <th class="px-4 py-2 text-left text-sm font-semibold">Fecha</th>
+      <th class="px-4 py-2 text-left text-sm font-semibold">Referencia</th>
+      <th class="px-4 py-2 text-right text-sm font-semibold">Líneas</th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+    <tr *ngFor="let doc of docs" class="hover:bg-gray-50">
+&lt;!&ndash;      <td class="px-4 py-2 whitespace-nowrap text-sm">{{ doc.id }}</td>&ndash;&gt;
+      <td class="px-4 py-2 whitespace-nowrap text-sm">
+          <span [ngClass]="doc.type === 'IN' ? 'text-green-600' : 'text-red-600'">
+            {{ doc.type === 'IN' ? 'Ingreso' : 'Salida' }}
+          </span>
+      </td>
+      <td class="px-4 py-2 whitespace-nowrap text-sm">{{ fmtDate(doc.date) }}</td>
+      <td class="px-4 py-2 whitespace-nowrap text-sm">{{ doc.reference }}</td>
+      <td class="px-4 py-2 whitespace-nowrap text-sm text-right">{{ doc.lines.length }}</td>
+    </tr>
+    </tbody>
+  </table>-->
+<!--</div>-->
+
+<div class="max-w-6xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-lg">
+  <div class="flex items-center gap-2 mb-4">
+    <!-- Todos -->
+    <button
+      (click)="filterType = 'ALL'"
+      [class.bg-blue-600]="filterType === 'ALL'"
+      [class.text-white]="filterType === 'ALL'"
+      class="px-3 py-1 rounded border hover:bg-blue-600 hover:text-white transition"
+    >Todos</button>
+
+    <!-- Ingreso -->
+    <button
+      (click)="filterType = 'IN'"
+      [class.bg-green-600]="filterType === 'IN'"
+      [class.text-white]="filterType === 'IN'"
+      class="px-3 py-1 rounded border hover:bg-green-600 hover:text-white transition"
+    >Ingresos</button>
+
+    <!-- Salida -->
+    <button
+      (click)="filterType = 'OUT'"
+      [class.bg-red-600]="filterType === 'OUT'"
+      [class.text-white]="filterType === 'OUT'"
+      class="px-3 py-1 rounded border hover:bg-red-600 hover:text-white transition"
+    >Salidas</button>
+  </div>
+  <!-- Filtro y botón de creación -->
+  <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+    <input
+      type="text"
+      [(ngModel)]="filter"
+      (ngModelChange)="onFilterChange()"
+      placeholder="🔍 Buscar ingreso o salida..."
+      class="w-64 md:w-80 border border-gray-300 rounded-lg px-4 py-2
+           focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+    />
+  </div>
+
+
+  <!-- Título -->
+  <h1 class="text-3xl font-bold text-gray-800 mb-4">Histórico de Ingresos y Salidas</h1>
+  <div *ngIf="loading" class="text-center py-4">Cargando...</div>
+  <div *ngIf="error" class="text-red-600 py-4">❌ {{ error }}</div>
+  <!-- Tabla -->
+  <div class="overflow-x-auto">
+
+
+    <table *ngIf="!loading && !error" class="min-w-full bg-white divide-y divide-gray-200 text-gray-700">
+      <thead>
+      <tr class="bg-gray-50">
+
+        <th class="px-4 py-2 text-left text-sm font-semibold">Tipo</th>
+        <th class="px-4 py-2 text-left text-sm font-semibold">Fecha</th>
+        <th class="px-4 py-2 text-left text-sm font-semibold">Referencia</th>
+        <th class="px-4 py-2 text-right text-sm font-semibold">Notas</th>
+      </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+      <tr *ngFor="let doc of filteredDocs" class="hover:bg-gray-50">
+        <!--      <td class="px-4 py-2 whitespace-nowrap text-sm">{{ doc.id }}</td>-->
+        <td class="px-4 py-2 whitespace-nowrap text-sm">
+          <span [ngClass]="doc.type === 'IN' ? 'text-green-600' : 'text-red-600'">
+            {{ doc.type === 'IN' ? 'Ingreso' : 'Salida' }}
+          </span>
+        </td>
+        <td class="px-4 py-2 whitespace-nowrap text-sm">{{ fmtDate(doc.date) }}</td>
+        <td class="px-4 py-2 whitespace-nowrap text-sm">{{ doc.reference }}</td>
+        <td class="px-4 py-2 whitespace-nowrap text-sm text-right">{{ doc.notes }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Controles de paginación -->
+  <div class="mt-4 flex justify-center items-center space-x-2">
+    <button
+      (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+    >
+      « Anterior
+    </button>
+
+    <button
+      *ngFor="let page of totalPagesArr"
+      (click)="goToPage(page)"
+      [class.font-bold]="page === currentPage"
+      class="px-3 py-1 rounded border hover:bg-gray-100"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      (click)="goToPage(currentPage + 1)"
+      [disabled]="currentPage === totalPagesArr.length"
+      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+    >
+      Siguiente »
+    </button>
+  </div>
+</div>

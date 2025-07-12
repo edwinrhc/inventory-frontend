@@ -43,13 +43,16 @@
 
           <!-- Submenú, solo si inventoryOpen === true -->
           <ul *ngIf="inventoryOpen" class="ml-4 mt-1 space-y-1">
+            <li><a routerLink="/inventory/list"
+                   routerLinkActive="bg-gray-700"
+                   class="block p-2 rounded hover:bg-gray-700 text-sm">📜 Historial Inventario</a></li>
             <li>
               <a
                 routerLink="/inventory/ingreso"
                 routerLinkActive="bg-gray-700"
                 class="block p-2 rounded hover:bg-gray-700 text-sm"
               >
-                ➕ Ingreso
+                ➕ Nuevo Ingreso
               </a>
             </li>
             <li>
@@ -58,7 +61,7 @@
                 routerLinkActive="bg-gray-700"
                 class="block p-2 rounded hover:bg-gray-700 text-sm"
               >
-                ➖ Salida
+                ➖ Nueva Salida
               </a>
             </li>
           </ul>

@@ -65,9 +65,20 @@ export class InventoryDocumentComponent implements OnInit{
       ...this.form.value
     };
     this.docSvc.create(dto).subscribe({
-      next: () => this.router.navigate(['/inventory']),
-      error: err => alert('Error: ' + err.message)
-    });
+      next: savedDoc => {
+        console.log('Documento creado', savedDoc);
+        alert(`✅ Documento registrado correctamente.`);
+        this.router.navigate(['/inventory/list']);
+      },
+      error: err => {
+        console.error('Error al crear documento', err);
+        alert(`❌ No se pudo crear el documento: ${err.message}`);
+      }
+    })
+  }
+
+  onCancel(){
+    this.router.navigate(['/inventory/list']);
   }
 
 }
