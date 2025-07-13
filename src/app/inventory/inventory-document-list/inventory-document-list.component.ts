@@ -2,15 +2,15 @@ import {CommonModule, DatePipe} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {InventoryDocument} from "../../core/models/inventory-document/inventory-document.model";
 import {InventoryDocumentService} from "../../core/services/inventory-document.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {Product} from "../../core/models/product/product";
-import {LucideAngularModule} from "lucide-angular";
+import {LucideAngularModule,Plus,Minus,SquarePen   } from "lucide-angular";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-inventory-document-list',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, ReactiveFormsModule,FormsModule],
+  imports: [CommonModule, LucideAngularModule, ReactiveFormsModule, FormsModule, RouterLink],
   providers:[DatePipe],
   templateUrl: './inventory-document-list.component.html',
   styleUrl: './inventory-document-list.component.css'
@@ -30,6 +30,10 @@ export class InventoryDocumentListComponent implements  OnInit{
 
   loading = true;
   error: string | null = null;
+
+  readonly Plus = Plus;
+  readonly Minus  = Minus  ;
+  readonly SquarePen  = SquarePen ;
 
   constructor(
     private svc: InventoryDocumentService,
@@ -75,9 +79,16 @@ export class InventoryDocumentListComponent implements  OnInit{
   }
 
 
-
   fmtDate(d:string){
     return this.datePipe.transform(d, 'shortDate');
+  }
+
+  onSalida(){
+    this.router.navigate(['/inventory/salida']);
+  }
+
+  onIngreso(){
+    this.router.navigate(['/inventory/ingreso']);
   }
 
 }

@@ -39,6 +39,12 @@ export class InventoryDocumentComponent implements OnInit{
 
   ngOnInit() {
     this.productSvc.list(1, 1000, '').subscribe(r => this.products = r.items);
+    this.docSvc.peekNextReference(this.movementType)
+      .subscribe({
+        next: ref => this.form.patchValue({ reference: ref }),
+        error: err => console.error('No se pudo obtener referencia', err)
+      });
+
     this.addLine();
   }
   get lines(): FormArray {

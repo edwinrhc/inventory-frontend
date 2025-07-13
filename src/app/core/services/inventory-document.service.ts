@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {InventoryDocument} from "../models/inventory-document/inventory-document.model";
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import {
   CreateInventoryDocumentDto,
 } from "../models/inventory-document/dto/create-inventory-document.dto";
@@ -15,14 +15,15 @@ export class InventoryDocumentService {
 
   private base = '/api/inventory-documents'
 
-  constructor(private http: HttpClient ) { }
+  constructor(private http: HttpClient) {
+  }
 
-  list(page: number, limit: number, filter: string): Observable<PageDto<InventoryDocument>>{
+  list(page: number, limit: number, filter: string): Observable<PageDto<InventoryDocument>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
 
-    if(filter){
+    if (filter) {
       params = params.set('filter', filter);
     }
     return this.http.get<PageDto<InventoryDocument>>(`${this.base}`, {params});
@@ -32,6 +33,13 @@ export class InventoryDocumentService {
     return this.http.get<InventoryDocument>(`${this.base}/${id}`);
   }
 
+  peekNextReference(type: 'IN' | 'OUT'): Observable<string> {
+    return this.http.get(`${this.base}/peek-reference`,
+      {
+        params: {type},
+        responseType: 'text'
+      });
+  }
 
   create(doc: Omit<InventoryDocument, 'id'>): Observable<InventoryDocument> {
     return this.http.post<InventoryDocument>(this.base, doc);
@@ -44,6 +52,7 @@ export class InventoryDocumentService {
   remove(id: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/${id}`);
   }
+
 
 
 

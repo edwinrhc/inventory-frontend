@@ -19,6 +19,7 @@
         <input
           formControlName="reference"
           class="w-full border rounded px-2 py-1"
+          readonly
         />
       </div>
       <div class="sm:col-span-2">
@@ -106,7 +107,11 @@
       <button
         type="submit"
         [disabled]="form.invalid"
-        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+        class="px-4 py-2 bg-green-600 text-white rounded transition"
+        [ngClass]="{
+          'bg-green-600 hover:bg-green-700' : movementType === 'IN',
+          'bg-red-600 hover:bg-red-700': movementType === 'OUT'
+        }"
       >
         {{ movementType === 'IN' ? 'Registrar Ingreso' : 'Registrar Salida' }}
       </button>
