@@ -40,21 +40,43 @@
         class="grid grid-cols-12 gap-2 items-end"
       >
         <!-- Producto -->
-        <div class="col-span-3">
+<!--        <div class="col-span-3">
           <label class="block mb-1">Producto</label>
           <select
             formControlName="productId"
             class="w-full border rounded px-2 py-1"
           >
-            <option [ngValue]="null" disabled>-- Selecciona --</option>
+            <option [ngValue]="null" disabled>&#45;&#45; Selecciona &#45;&#45;</option>
             <option
               *ngFor="let p of products"
               [value]="p.id"
             >{{ p.name }}</option>
           </select>
+        </div>-->
+        <!-- Producto -->
+        <div class="col-span-3">
+          <label class="block mb-1">Producto</label>
+
+          <ng-select
+            formControlName="productId"
+            [items]="products"
+            bindLabel="name"
+            bindValue="id"
+            [typeahead]="productInput$"
+            [loading]="loadingProducts"
+            [virtualScroll]="true"
+            [clearable]="true"
+            [searchable]="true"
+            [appendTo]="'body'"
+            class="ng-select-tailwind">
+          </ng-select>
+
+
+
         </div>
+
         <!-- Cantidad -->
-        <div class="col-span-2">
+        <div class="col-span-1">
           <label class="block mb-1">Cantidad</label>
           <input
             type="number"
@@ -72,7 +94,7 @@
           />
         </div>
         <!-- Detalle -->
-        <div class="col-span-4">
+        <div class="col-span-5">
           <label class="block mb-1">Detalle</label>
           <input
             formControlName="detail"

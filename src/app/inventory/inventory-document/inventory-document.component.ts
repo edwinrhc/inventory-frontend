@@ -7,11 +7,13 @@ import {ProductsService} from "../../core/services/products.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import { Component, OnInit, Input } from '@angular/core';
 import {CommonModule} from "@angular/common";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {Subject, catchError, debounceTime, distinctUntilChanged, finalize, switchMap, tap, of} from "rxjs";
 
 @Component({
   selector: 'app-inventory-document',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, NgSelectModule],
   templateUrl: './inventory-document.component.html',
   styleUrl: './inventory-document.component.css'
 })
@@ -20,6 +22,10 @@ export class InventoryDocumentComponent implements OnInit{
   @Input() movementType: 'IN' | 'OUT';
   form: FormGroup;
   products: Product[] = [];
+
+  selectedProductId!: string;
+  productInput$ = new Subject<string>();
+  loadingProducts = false;
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +44,20 @@ export class InventoryDocumentComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.productSvc.list(1, 1000, '').subscribe(r => this.products = r.items);
+    // this.productSvc.list(1, 1000, '').subscribe(r => this.products = r.items);
+    // this.productSvc.listSinPaginar();
+    this.productInput$
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap(() => this.loadingProducts = true),
+        switchMap(term => this.productSvc.list(1, 20, term).pipe(
+          catchError(() => of({ items: [] })), // en caso de error
+          finalize(() => this.loadingProducts = false)
+        ))
+      )
+      .subscribe(res => this.products = res.items);
+
     this.docSvc.peekNextReference(this.movementType)
       .subscribe({
         next: ref => this.form.patchValue({ reference: ref }),

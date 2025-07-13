@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {CreateProductDto} from "../models/product/dto/create-product.dto";
 import {UpdateProductoDto} from "../models/product/dto/update-producto.dto";
 import {PageDto} from "../models/page/page.dto";
+import {InventoryDocument} from "../models/inventory-document/inventory-document.model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,9 @@ export class ProductsService {
   constructor(private http: HttpClient) {
   }
 
-  // list(){
-  //   return this.http.get<Product[]>(`${this.base}`);
-  // }
+  listSinPaginar(){
+    return this.http.get<Product[]>(`${this.base}/listar-sin-paginar`);
+  }
 
   list(page: number, limit: number, filter: string): Observable<PageDto<Product>> {
     let params = new HttpParams()
