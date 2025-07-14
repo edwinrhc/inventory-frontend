@@ -1,0 +1,73 @@
+
+<div class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-lg">
+  <!-- Filtro y botón de creación -->
+  <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+    <input
+      type="text"
+      [(ngModel)]="filter"
+      (ngModelChange)="onFilterChange()"
+      placeholder="🔍 Buscar producto..."
+      class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+    />
+
+  </div>
+
+  <!-- Título -->
+  <h1 class="text-3xl font-bold text-gray-800 mb-4">Listado de Productos - Ingreso / Salida / Stock</h1>
+
+  <!-- Tabla -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white divide-y divide-gray-200 text-gray-700">
+        <thead>
+        <tr class="bg-gray-50">
+          <th class="px-6 py-3 text-left text-sm font-semibold">SKU</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Nombre</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Stock</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Total In</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Total Out</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Última entrada</th>
+          <th class="px-6 py-3 text-left text-sm font-semibold">Última salida</th>
+        </tr>
+        </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr *ngFor="let item of stockData">
+          <td  class="px-6 py-4 whitespace-nowrap">{{ item.sku }}</td>
+          <td  class="px-6 py-4 whitespace-nowrap">{{ item.name }}</td>
+          <td  class="px-6 py-4 whitespace-nowrap">{{ item.currentStock }}</td>
+          <td  class="px-6 py-4 whitespace-nowrap">{{ item.totalIn }}</td>
+          <td  class="px-6 py-4 whitespace-nowrap">{{ item.totalOut }}</td>
+          <td  class="px-6 py-4 whitespace-nowrap">{{ item.lastInRef || '—' }}</td>
+          <td  class="px-6 py-4 whitespace-nowrap">{{ item.lastOutRef || '—' }}</td>
+        </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <!-- Controles de paginación -->
+  <div class="mt-4 flex justify-center items-center space-x-2">
+    <button
+      (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+    >
+      « Anterior
+    </button>
+
+    <button
+      *ngFor="let page of totalPagesArr"
+      (click)="goToPage(page)"
+      [class.font-bold]="page === currentPage"
+      class="px-3 py-1 rounded border hover:bg-gray-100"
+    >
+      {{ page }}
+    </button>
+
+    <button
+      (click)="goToPage(currentPage + 1)"
+      [disabled]="currentPage === totalPagesArr.length"
+      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+    >
+      Siguiente »
+    </button>
+  </div>
+</div>

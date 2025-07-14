@@ -91,6 +91,12 @@ export const routes: Routes = [
             data: { movementType: 'OUT' }
           },
           {
+            path: 'report',
+            loadComponent: () =>
+              import('./report/stock-list/stock-list.component')
+                .then(m => m.StockListComponent)
+          },
+          {
             path: '',
             redirectTo: 'ingreso',
             pathMatch: 'full'

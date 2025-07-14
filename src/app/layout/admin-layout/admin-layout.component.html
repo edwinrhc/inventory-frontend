@@ -14,15 +14,17 @@
       <ul class="space-y-2">
         <li>
           <a routerLink="/products"
-             routerLinkActive="bg-gray-700"   class="flex items-center p-2 rounded hover:bg-gray-700 group">
-            <lucide-icon [img]="Package"  class="w-5 h-5 mr-2 text-white group-hover:text-yellow-400 transition"></lucide-icon>
+             routerLinkActive="bg-gray-700" class="flex items-center p-2 rounded hover:bg-gray-700 group">
+            <lucide-icon [img]="Package"
+                         class="w-5 h-5 mr-2 text-white group-hover:text-yellow-400 transition"></lucide-icon>
             Productos
           </a>
         </li>
         <li>
           <a routerLink="/product-types"
-             routerLinkActive="bg-gray-700"   class="flex items-center p-2 rounded hover:bg-gray-700 group">
-            <lucide-icon [img]="Package"  class="w-5 h-5 mr-2 text-white group-hover:text-yellow-400 transition"></lucide-icon>
+             routerLinkActive="bg-gray-700" class="flex items-center p-2 rounded hover:bg-gray-700 group">
+            <lucide-icon [img]="Package"
+                         class="w-5 h-5 mr-2 text-white group-hover:text-yellow-400 transition"></lucide-icon>
             Categorías
           </a>
         </li>
@@ -43,27 +45,30 @@
 
           <!-- Submenú, solo si inventoryOpen === true -->
           <ul *ngIf="inventoryOpen" class="ml-4 mt-1 space-y-1">
+            <li>
+              <a
+                routerLink="/inventory/report"
+                routerLinkActive="bg-gray-700"
+                class="block p-2 rounded hover:bg-gray-700 text-sm"
+              >
+                📜 Control de los Productos
+              </a>
+            </li>
+
             <li><a routerLink="/inventory/list"
                    routerLinkActive="bg-gray-700"
-                   class="block p-2 rounded hover:bg-gray-700 text-sm">📜 Historial Inventario</a></li>
-<!--            <li>-->
-<!--              <a-->
-<!--                routerLink="/inventory/ingreso"-->
-<!--                routerLinkActive="bg-gray-700"-->
-<!--                class="block p-2 rounded hover:bg-gray-700 text-sm"-->
-<!--              >-->
-<!--                ➕ Nuevo Ingreso-->
-<!--              </a>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--              <a-->
-<!--                routerLink="/inventory/salida"-->
-<!--                routerLinkActive="bg-gray-700"-->
-<!--                class="block p-2 rounded hover:bg-gray-700 text-sm"-->
-<!--              >-->
-<!--                ➖ Nueva Salida-->
-<!--              </a>-->
-<!--            </li>-->
+                   class="block p-2 rounded hover:bg-gray-700 text-sm">📜 Historial Inventario</a>
+            </li>
+
+            <!--            <li>-->
+            <!--              <a-->
+            <!--                routerLink="/inventory/salida"-->
+            <!--                routerLinkActive="bg-gray-700"-->
+            <!--                class="block p-2 rounded hover:bg-gray-700 text-sm"-->
+            <!--              >-->
+            <!--                ➖ Nueva Salida-->
+            <!--              </a>-->
+            <!--            </li>-->
           </ul>
         </li>
       </ul>
