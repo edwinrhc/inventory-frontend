@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {InventoryDocument} from "../models/inventory-document/inventory-document.model";
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {
   CreateInventoryDocumentDto,
 } from "../models/inventory-document/dto/create-inventory-document.dto";
 import {UpdateInventoryDocumentDto} from "../models/inventory-document/dto/update-inventory-document.dto";
 import {PageDto} from "../models/page/page.dto";
+import {CreateInventoryResponse} from "../models/inventory-document/dto/create-inventory-response";
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,14 @@ export class InventoryDocumentService {
       });
   }
 
-  create(doc: Omit<InventoryDocument, 'id'>): Observable<InventoryDocument> {
-    return this.http.post<InventoryDocument>(this.base, doc);
+  create(doc: Omit<InventoryDocument, 'id'>): Observable<CreateInventoryResponse> {
+    return this.http.post<CreateInventoryResponse>(this.base, doc);
+  }
+
+  getStock(productId: string): Observable<number>{
+    return this.http.get<{ quantity: number }>(
+      `${this.base}/inventory-items/${productId}`
+    ).pipe(map(res => res.quantity));
   }
 
   update(id: string, doc: Partial<Omit<InventoryDocument, 'id'>>): Observable<InventoryDocument> {

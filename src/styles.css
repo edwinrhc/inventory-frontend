@@ -4,6 +4,8 @@
 @tailwind utilities;
 
 
+
+
 .ng-select.ng-select-tailwind .ng-select-container {
   background-color: white;
   border: 1px solid #d1d5db;
