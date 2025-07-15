@@ -129,11 +129,19 @@ export class InventoryDocumentComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         tap(() => this.loadingProducts = true),
-        switchMap(term => this.productSvc.list(1, 20, term)
-          .pipe(
+        switchMap(term => {
+          const page = 1;
+          const limit = 40;
+
+          const serviceCall = this.movementType === 'OUT'
+          ? this.productSvc.getProductsIsActiveWithStock(page,limit,term)
+          : this.productSvc.getProductsIsActive(page,limit, term);
+
+         return serviceCall.pipe(
             catchError(() => of({items: []})),
             finalize(() => this.loadingProducts = false),
           )
+        }
         )
       )
       .subscribe(res => this.products = res.items);

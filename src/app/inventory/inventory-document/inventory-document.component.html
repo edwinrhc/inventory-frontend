@@ -4,6 +4,23 @@
   </h2>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- VALIDACIONES GLOBALES -->
+    <div *ngIf="form.invalid && (form.touched || form.dirty)" class="mb-4 p-4 border border-red-400 bg-red-100 text-red-700 rounded">
+      <div class="space-y-1 text-sm">
+        <div *ngIf="form.get('date')?.invalid">La fecha es obligatoria.</div>
+
+        <ng-container *ngFor="let line of lines.controls; let i = index">
+          <ng-container *ngIf="line.invalid">
+            <div *ngIf="line.get('productId')?.invalid">[Línea {{ i + 1 }}] Producto es obligatorio.</div>
+            <div *ngIf="line.get('quantity')?.hasError('required')">[Línea {{ i + 1 }}] Cantidad es obligatoria.</div>
+            <div *ngIf="line.get('quantity')?.hasError('min')">[Línea {{ i + 1 }}] Cantidad mínima es 1.</div>
+            <div *ngIf="line.get('quantity')?.hasError('max')">[Línea {{ i + 1 }}] Supera el stock disponible.</div>
+            <div *ngIf="line.get('unitPrice')?.invalid">[Línea {{ i + 1 }}] Precio unitario es obligatorio.</div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
     <!-- Metadatos -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       <div>
@@ -12,10 +29,8 @@
           type="date"
           formControlName="date"
           class="w-full border rounded px-2 py-1"
+          [ngClass]="{'border-red-500': form.get('date')?.invalid && (form.get('date')?.touched || form.get('date')?.dirty)}"
         />
-        <div *ngIf="form.get('date')?.invalid && form.get('date')?.touched" class="text-red-500 text-sm">
-          Fecha es obligatoria.
-        </div>
       </div>
       <div>
         <label class="block mb-1">Referencia</label>
@@ -45,7 +60,6 @@
         <!-- Producto -->
         <div class="col-span-3">
           <label class="block mb-1">Producto</label>
-
           <ng-select
             formControlName="productId"
             [items]="products"
@@ -59,11 +73,8 @@
             [searchable]="true"
             [appendTo]="'body'"
             class="ng-select-tailwind"
+            [ngClass]="{'border-red-500': line.get('productId')?.invalid && (line.get('productId')?.touched || line.get('productId')?.dirty)}"
           ></ng-select>
-          <div *ngIf="line.get('productId')?.invalid && line.get('productId')?.touched"
-               class="text-red-500 text-sm">
-            Producto es obligatorio.
-          </div>
         </div>
 
         <!-- Cantidad -->
@@ -75,33 +86,19 @@
             [attr.min]="1"
             [attr.max]="line.get('maxStock')?.value"
             class="w-full border rounded px-2 py-1"
+            [ngClass]="{'border-red-500': line.get('quantity')?.invalid && (line.get('quantity')?.touched || line.get('quantity')?.dirty)}"
           />
-          <div *ngIf="line.get('quantity')?.hasError('required') && line.get('quantity')?.touched"
-               class="text-red-500 text-sm">
-            Cantidad es obligatoria.
-          </div>
-          <div *ngIf="line.get('quantity')?.hasError('min') && line.get('quantity')?.touched"
-               class="text-red-500 text-sm">
-            La cantidad mínima es 1.
-          </div>
-          <div *ngIf="line.get('quantity')?.hasError('max') && line.get('quantity')?.touched"
-               class="text-red-500 text-sm">
-            Supera el stock disponible (máx. {{ line.get('maxStock')?.value }}).
-          </div>
         </div>
 
-        <!-- Precio unitario -->
+        <!-- Precio Unitario -->
         <div class="col-span-2">
           <label class="block mb-1">Precio Unit.</label>
           <input
             type="number"
             formControlName="unitPrice"
             class="w-full border rounded px-2 py-1"
+            [ngClass]="{'border-red-500': line.get('unitPrice')?.invalid && (line.get('unitPrice')?.touched || line.get('unitPrice')?.dirty)}"
           />
-          <div *ngIf="line.get('unitPrice')?.invalid && line.get('unitPrice')?.touched"
-               class="text-red-500 text-sm">
-            Precio unitario es obligatorio.
-          </div>
         </div>
 
         <!-- Detalle -->
@@ -121,8 +118,7 @@
             class="text-red-500 hover:text-red-700"
             [disabled]="lines.length === 1"
             title="Eliminar línea"
-          >✖
-          </button>
+          >✖</button>
         </div>
       </div>
 
@@ -130,8 +126,7 @@
         type="button"
         (click)="addLine()"
         class="text-blue-600 hover:underline"
-      >+ Añadir línea
-      </button>
+      >+ Añadir línea</button>
     </div>
 
     <!-- Acciones -->
@@ -140,8 +135,7 @@
         type="button"
         (click)="onCancel()"
         class="px-4 py-2 rounded border hover:bg-gray-100 transition"
-      >Cancelar
-      </button>
+      >Cancelar</button>
 
       <button
         type="submit"
@@ -149,7 +143,7 @@
         class="px-4 py-2 text-white rounded transition"
         [ngClass]="{
           'bg-green-600 hover:bg-green-700': movementType === 'IN',
-          'bg-red-600 hover:bg-red-700':   movementType === 'OUT',
+          'bg-red-600 hover:bg-red-700': movementType === 'OUT',
           'opacity-50 cursor-not-allowed': form.invalid
         }"
       >

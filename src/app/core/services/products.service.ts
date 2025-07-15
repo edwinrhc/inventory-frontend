@@ -6,6 +6,7 @@ import {CreateProductDto} from "../models/product/dto/create-product.dto";
 import {UpdateProductoDto} from "../models/product/dto/update-producto.dto";
 import {PageDto} from "../models/page/page.dto";
 import {InventoryDocument} from "../models/inventory-document/inventory-document.model";
+import {ProductWithStock} from "../models/product/dto/product-with-stock";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,27 @@ export class ProductsService {
       params = params.set('filter', filter);
     }
     return this.http.get<PageDto<Product>>(`${this.base}`, {params});
+  }
+
+  getProductsIsActive(page:number, limit:number, filter:string): Observable<PageDto<Product>>{
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if (filter) {
+      params = params.set('filter', filter);
+    }
+    return this.http.get<PageDto<Product>>(`${this.base}/select/active-paginated`, {params});
+  }
+
+
+  getProductsIsActiveWithStock(page:number, limit:number, filter:string): Observable<PageDto<ProductWithStock>>{
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if (filter) {
+      params = params.set('filter', filter);
+    }
+    return this.http.get<PageDto<ProductWithStock>>(`${this.base}/select/active-with-stock-paginated`, {params});
   }
 
 
