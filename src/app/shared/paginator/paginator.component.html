@@ -1,0 +1,43 @@
+<!-- paginator.component.html -->
+<div class="mt-4 flex justify-center items-center space-x-1">
+  <!-- Anterior -->
+  <button
+    type="button"
+    (click)="goTo(currentPage - 1)"
+    [disabled]="currentPage === 1"
+    class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+  >
+    « Anterior
+  </button>
+
+  <!-- Páginas: números y "..." -->
+  <ng-container *ngFor="let p of displayedPages">
+    <button
+      *ngIf="p === '...'; else numBtn"
+      type="button"
+      disabled
+      class="px-2 py-1 text-gray-500 cursor-default"
+    >…</button>
+
+    <ng-template #numBtn>
+      <button
+        type="button"
+        (click)="goTo(p)"
+        [class.font-bold]="p === currentPage"
+        class="px-3 py-1 rounded border hover:bg-gray-100"
+      >
+        {{ p }}
+      </button>
+    </ng-template>
+  </ng-container>
+
+  <!-- Siguiente -->
+  <button
+    type="button"
+    (click)="goTo(currentPage + 1)"
+    [disabled]="currentPage === totalPages"
+    class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
+  >
+    Siguiente »
+  </button>
+</div>

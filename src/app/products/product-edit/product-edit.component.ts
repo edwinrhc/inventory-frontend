@@ -33,6 +33,8 @@ export class ProductEditComponent implements OnInit {
 
   types: ProductType[] = [];
   id!: string;
+  returnPage = 1;
+  currentPage = 1;
 
   constructor(
     private svc: ProductsService,
@@ -44,6 +46,10 @@ export class ProductEditComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    const qp = this.route.snapshot.queryParamMap.get('page');
+    this.returnPage = qp ? +qp : 1;
+
     this.id = this.route.snapshot.paramMap.get('id')!;
     // Cargamos paralelo: producto y tipos
     this.svc.get(this.id).subscribe({
@@ -67,7 +73,10 @@ export class ProductEditComponent implements OnInit {
     };
 
     this.svc.update(this.id, dto).subscribe({
-      next: () => this.router.navigate(['/products']),
+      next: () => this.router.navigate(
+        ['/products'],
+        { queryParams: { page: this.returnPage } }
+      ),
       error: err => {
         console.error('Error actualizando producto', err);
         alert(`Error ${err.status}: ${JSON.stringify(err.error, null,2)}`);
@@ -76,8 +85,12 @@ export class ProductEditComponent implements OnInit {
   }
 
 
+
   onCancel() {
-    this.router.navigate(['products']);
+    this.router.navigate(
+      ['/products'],
+      { queryParams: { page: this.returnPage } }
+    );
   }
 
 

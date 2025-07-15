@@ -43,31 +43,10 @@
       </table>
   </div>
 
-  <!-- Controles de paginación -->
-  <div class="mt-4 flex justify-center items-center space-x-2">
-    <button
-      (click)="goToPage(currentPage - 1)"
-      [disabled]="currentPage === 1"
-      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
-    >
-      « Anterior
-    </button>
+  <app-paginator
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="goToPage($event)"
+  ></app-paginator>
 
-    <button
-      *ngFor="let page of totalPagesArr"
-      (click)="goToPage(page)"
-      [class.font-bold]="page === currentPage"
-      class="px-3 py-1 rounded border hover:bg-gray-100"
-    >
-      {{ page }}
-    </button>
-
-    <button
-      (click)="goToPage(currentPage + 1)"
-      [disabled]="currentPage === totalPagesArr.length"
-      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
-    >
-      Siguiente »
-    </button>
-  </div>
 </div>

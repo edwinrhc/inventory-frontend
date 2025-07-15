@@ -1,15 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductType} from "../../core/models/product-type/ProductType";
 import {ProductTypeService} from "../../core/services/product-type.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {UpdateTypeProductDto} from "../../core/models/product-type/dto/update-type-product.dto";
 import {FormsModule} from "@angular/forms";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-product-type-edit',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,CommonModule,RouterModule
   ],
   templateUrl: './product-type-edit.component.html',
   styleUrl: './product-type-edit.component.css'
@@ -18,6 +19,8 @@ export class ProductTypeEditComponent implements OnInit{
 
   type: ProductType = {id: '', name: '', description: '', isActive: true};
   id!: string;
+  returnPage = 1;
+  currentPage = 1;
 
   constructor(
     private svc: ProductTypeService,
@@ -26,6 +29,9 @@ export class ProductTypeEditComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
+
+    const qp = this.route.snapshot.queryParamMap.get('page');
+    this.returnPage = qp ? +qp : 1;
 
     this.id = this.route.snapshot.paramMap.get('id')!;
 
@@ -49,7 +55,10 @@ export class ProductTypeEditComponent implements OnInit{
     };
 
     this.svc.update(this.id, dto).subscribe({
-      next: () => this.router.navigate(['/product-types']),
+      next: () => this.router.navigate(
+        ['/product-types'],
+        { queryParams: { page: this.returnPage } }
+        ),
       error: err => {
         console.error('Error actualizando tipo de producto', {
           status: err.status,
@@ -61,7 +70,10 @@ export class ProductTypeEditComponent implements OnInit{
   }
 
   onCancel(){
-    this.router.navigate(['product-types']);
+    this.router.navigate(
+      ['product-types'],
+      { queryParams: { page: this.returnPage } }
+    );
   }
 
 

@@ -50,7 +50,7 @@
 
         <td class="px-6 py-4 whitespace-nowrap text-center flex justify-center gap-3">
           <button
-            (click)="router.navigate(['/product-types', type.id, 'edit'])"
+            (click)="goToEdit(type.id)"
             class="flex items-center gap-0.5 bg-blue-500 text-white p-1 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-300 transition">
             <lucide-icon [img]="SquarePen" class="w-4 h-4"></lucide-icon>
           </button>
@@ -66,33 +66,11 @@
     </table>
   </div>
 
-  <!-- Controles de paginación -->
-  <div class="mt-4 flex justify-center items-center space-x-2">
-    <button
-      (click)="goToPage(currentPage - 1)"
-      [disabled]="currentPage === 1"
-      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
-    >
-      « Anterior
-    </button>
-
-    <button
-      *ngFor="let page of totalPagesArr"
-      (click)="goToPage(page)"
-      [class.font-bold]="page === currentPage"
-      class="px-3 py-1 rounded border hover:bg-gray-100"
-    >
-      {{ page }}
-    </button>
-
-    <button
-      (click)="goToPage(currentPage + 1)"
-      [disabled]="currentPage === totalPagesArr.length"
-      class="px-3 py-1 rounded border hover:bg-gray-100 disabled:opacity-50"
-    >
-      Siguiente »
-    </button>
-  </div>
+  <app-paginator
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChange)="goToPage($event)"
+  ></app-paginator>
 
 
 </div>
