@@ -223,7 +223,7 @@ export class InventoryDocumentComponent implements OnInit {
 
 
   onCancel() {
-    this.router.navigate(['/inventory/list']);
+    this.router.navigate(['/inventory/report']);
   }
 
 }

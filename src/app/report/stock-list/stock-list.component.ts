@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import { LucideAngularModule } from 'lucide-angular';
+import {LucideAngularModule, Minus, Plus} from 'lucide-angular';
 import {StockReportDto} from "../../core/models/stock/dto/stock-report.model";
 import {ReportStockService} from "../../core/services/report.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -31,7 +31,8 @@ export class StockListComponent implements OnInit{
     private rss: ReportStockService,
     protected router: Router) {}
 
-
+  protected readonly Minus = Minus;
+  protected readonly Plus = Plus;
 
 
   ngOnInit(): void {
@@ -62,5 +63,11 @@ export class StockListComponent implements OnInit{
     this.loadStockData();
   }
 
+  onSalida(){
+    this.router.navigate(['/inventory/salida']);
+  }
 
+  onIngreso(){
+    this.router.navigate(['/inventory/ingreso']);
+  }
 }

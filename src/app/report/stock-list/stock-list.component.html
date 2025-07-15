@@ -1,19 +1,33 @@
 
-<div class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-lg">
+<div class="max-w-6xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-lg">
   <!-- Filtro y botón de creación -->
-  <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
-    <input
-      type="text"
-      [(ngModel)]="filter"
-      (ngModelChange)="onFilterChange()"
-      placeholder="🔍 Buscar producto..."
-      class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
-    />
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center gap-2 mb-4">
 
+
+    </div>
+    <!-- Grupo de acciones (derecha) -->
+    <div class="flex items-center gap-4">
+      <button
+        (click)="onIngreso()"
+        class="inline-flex items-center gap-1 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
+      >
+        <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon>
+        <span>Nuevo Ingreso</span>
+      </button>
+
+      <button
+        (click)="onSalida()"
+        class="inline-flex items-center gap-1 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+      >
+        <lucide-icon [img]="Minus" class="w-4 h-4"></lucide-icon>
+        <span>Nueva Salida</span>
+      </button>
+    </div>
   </div>
 
   <!-- Título -->
-  <h1 class="text-3xl font-bold text-gray-800 mb-4">Listado de Productos - Ingreso / Salida / Stock</h1>
+  <h1 class="text-1xl font-bold text-gray-800 mb-4">Listado de Productos - Ingreso / Salida / Stock</h1>
 
   <!-- Tabla -->
   <div class="overflow-x-auto">

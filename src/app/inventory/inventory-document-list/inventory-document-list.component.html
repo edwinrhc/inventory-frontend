@@ -32,49 +32,52 @@
 
 <div class="max-w-6xl mx-auto mt-8 p-6 bg-white rounded-2xl shadow-lg">
   <div class="flex items-center justify-between mb-4">
-  <div class="flex items-center gap-2 mb-4">
-    <!-- Todos -->
-    <button
-      (click)="filterType = 'ALL'"
-      [class.bg-blue-600]="filterType === 'ALL'"
-      [class.text-white]="filterType === 'ALL'"
-      class="px-3 py-1 rounded border hover:bg-blue-600 hover:text-white transition"
-    >Todos</button>
+    <div class="flex items-center gap-2 mb-4">
+      <!-- Todos -->
+      <button
+        (click)="filterType = 'ALL'"
+        [class.bg-blue-600]="filterType === 'ALL'"
+        [class.text-white]="filterType === 'ALL'"
+        class="px-3 py-1 rounded border hover:bg-blue-600 hover:text-white transition"
+      >Todos
+      </button>
 
-    <!-- Ingreso -->
-    <button
-      (click)="filterType = 'IN'"
-      [class.bg-green-600]="filterType === 'IN'"
-      [class.text-white]="filterType === 'IN'"
-      class="px-3 py-1 rounded border hover:bg-green-600 hover:text-white transition"
-    >Ingresos</button>
+      <!-- Ingreso -->
+      <button
+        (click)="filterType = 'IN'"
+        [class.bg-green-600]="filterType === 'IN'"
+        [class.text-white]="filterType === 'IN'"
+        class="px-3 py-1 rounded border hover:bg-green-600 hover:text-white transition"
+      >Ingresos
+      </button>
 
-    <!-- Salida -->
-    <button
-      (click)="filterType = 'OUT'"
-      [class.bg-red-600]="filterType === 'OUT'"
-      [class.text-white]="filterType === 'OUT'"
-      class="px-3 py-1 rounded border hover:bg-red-600 hover:text-white transition"
-    >Salidas</button>
-  </div>
-  <!-- Grupo de acciones (derecha) -->
-  <div class="flex items-center gap-2">
-    <button
-      (click)="onIngreso()"
-      class="inline-flex items-center gap-1 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
-    >
-      <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon>
-      <span>Nuevo Ingreso</span>
-    </button>
+      <!-- Salida -->
+      <button
+        (click)="filterType = 'OUT'"
+        [class.bg-red-600]="filterType === 'OUT'"
+        [class.text-white]="filterType === 'OUT'"
+        class="px-3 py-1 rounded border hover:bg-red-600 hover:text-white transition"
+      >Salidas
+      </button>
+    </div>
+    <!-- Grupo de acciones (derecha) -->
+<!--    <div class="flex items-center gap-2">-->
+<!--      <button-->
+<!--        (click)="onIngreso()"-->
+<!--        class="inline-flex items-center gap-1 px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"-->
+<!--      >-->
+<!--        <lucide-icon [img]="Plus" class="w-4 h-4"></lucide-icon>-->
+<!--        <span>Nuevo Ingreso</span>-->
+<!--      </button>-->
 
-    <button
-      (click)="onSalida()"
-      class="inline-flex items-center gap-1 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
-    >
-      <lucide-icon [img]="Minus" class="w-4 h-4"></lucide-icon>
-     <span>Nueva Salida</span>
-    </button>
-  </div>
+<!--      <button-->
+<!--        (click)="onSalida()"-->
+<!--        class="inline-flex items-center gap-1 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"-->
+<!--      >-->
+<!--        <lucide-icon [img]="Minus" class="w-4 h-4"></lucide-icon>-->
+<!--        <span>Nueva Salida</span>-->
+<!--      </button>-->
+<!--    </div>-->
   </div>
   <!-- Filtro y botón de creación -->
   <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
@@ -90,7 +93,7 @@
 
 
   <!-- Título -->
-  <h1 class="text-3xl font-bold text-gray-800 mb-4">Histórico de Ingresos y Salidas</h1>
+  <h1 class="text-1xl font-bold text-gray-800 mb-4">Histórico de Ingresos y Salidas</h1>
   <div *ngIf="loading" class="text-center py-4">Cargando...</div>
   <div *ngIf="error" class="text-red-600 py-4">❌ {{ error }}</div>
   <!-- Tabla -->
