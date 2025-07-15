@@ -1,7 +1,7 @@
 <!-- product-create.component.html -->
 <div class="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow">
   <h2 class="text-2xl font-bold mb-4">Crear tipo producto</h2>
-  <form (ngSubmit)="onSubmit()" #f="ngForm">
+  <form (ngSubmit)="f.form.markAllAsTouched(); onSubmit()" #f="ngForm">
     <div class="mb-4">
       <label for="name" class="block mb-1">Nombre</label>
       <input
@@ -9,9 +9,14 @@
         name="name"
         required
         [(ngModel)]="type.name"
+        #name = "ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       />
+      <div *ngIf="name.invalid && name.touched" class="text-red-500 text-sm">
+        El nombre es obligatorio.
+      </div>
     </div>
+
 
     <div class="mb-4">
       <label for="description" class="block mb-1">Descripción</label>
@@ -20,9 +25,13 @@
         name="description"
         required
         [(ngModel)]="type.description"
+        #description = "ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
         rows="3"
       ></textarea>
+      <div *ngIf="description.invalid && description.touched" class="text-red-500 text-sm">
+        La descripción es obligatoria.
+      </div>
     </div>
 
     <div class="flex justify-end gap-2">
@@ -35,7 +44,8 @@
       <button
         type="submit"
         [disabled]="f.invalid"
-        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        class="px-4 py-2 bg-blue-600 text-white rounded transition
+               hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed">
         Crear
       </button>
     </div>

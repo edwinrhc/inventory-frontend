@@ -1,7 +1,8 @@
-<!-- product-create.component.html -->
 <div class="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow">
   <h2 class="text-2xl font-bold mb-4">Crear Producto</h2>
-  <form (ngSubmit)="onSubmit()" #f="ngForm">
+  <form (ngSubmit)="onSubmit(); f.form.markAllAsTouched()" #f="ngForm">
+
+    <!-- SKU -->
     <div class="mb-4">
       <label for="sku" class="block mb-1">SKU</label>
       <input
@@ -9,9 +10,15 @@
         name="sku"
         required
         [(ngModel)]="product.sku"
+        #sku="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       />
+      <div *ngIf="sku.invalid && (sku.dirty || sku.touched)" class="text-red-500 text-sm mt-1">
+        <div *ngIf="sku.errors?.['required']">El SKU es obligatorio.</div>
+      </div>
     </div>
+
+    <!-- Nombre -->
     <div class="mb-4">
       <label for="name" class="block mb-1">Nombre</label>
       <input
@@ -19,9 +26,15 @@
         name="name"
         required
         [(ngModel)]="product.name"
+        #name="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       />
+      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-red-500 text-sm mt-1">
+        <div *ngIf="name.errors?.['required']">El nombre es obligatorio.</div>
+      </div>
     </div>
+
+    <!-- Precio -->
     <div class="mb-4">
       <label for="price" class="block mb-1">Precio</label>
       <input
@@ -29,10 +42,18 @@
         name="price"
         type="number"
         required
+        min="0.01"
         [(ngModel)]="product.price"
+        #price="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       />
+      <div *ngIf="price.invalid && (price.dirty || price.touched)" class="text-red-500 text-sm mt-1">
+        <div *ngIf="price.errors?.['required']">El precio es obligatorio.</div>
+        <div *ngIf="price.errors?.['min']">El precio debe ser al menos 0.01.</div>
+      </div>
     </div>
+
+    <!-- Descripción -->
     <div class="mb-4">
       <label for="description" class="block mb-1">Descripción</label>
       <textarea
@@ -40,11 +61,16 @@
         name="description"
         required
         [(ngModel)]="product.description"
+        #description="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
         rows="3"
       ></textarea>
+      <div *ngIf="description.invalid && (description.dirty || description.touched)" class="text-red-500 text-sm mt-1">
+        <div *ngIf="description.errors?.['required']">La descripción es obligatoria.</div>
+      </div>
     </div>
 
+    <!-- Tipo de producto -->
     <div class="mb-4">
       <label for="productTypeId" class="block mb-1">Tipo de Producto</label>
       <select
@@ -52,13 +78,18 @@
         name="productTypeId"
         required
         [(ngModel)]="product.productTypeId"
+        #productTypeId="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       >
         <option value="" disabled>-- Selecciona un tipo --</option>
         <option *ngFor="let t of types" [value]="t.id">{{ t.name }}</option>
       </select>
+      <div *ngIf="productTypeId.invalid && (productTypeId.dirty || productTypeId.touched)" class="text-red-500 text-sm mt-1">
+        <div *ngIf="productTypeId.errors?.['required']">Debes elegir un tipo de producto.</div>
+      </div>
     </div>
 
+    <!-- Botones -->
     <div class="flex justify-end gap-2">
       <button
         type="button"
@@ -69,9 +100,12 @@
       <button
         type="submit"
         [disabled]="f.invalid"
-        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        class="px-4 py-2 bg-blue-600 text-white rounded transition
+             hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
         Crear
       </button>
     </div>
+
   </form>
 </div>

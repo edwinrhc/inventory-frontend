@@ -28,12 +28,12 @@
       [class.border-red-500]="password.invalid && password.touched"
     />
     <div *ngIf="password.invalid && password.touched" class="text-red-600 text-sm mb-4">
-      <div *ngIf="password.errors?.['required']">El password es obligatorio.</div>
+      <div *ngIf="password.errors?.['required']">La contraseña es obligatorio.</div>
     </div>
     <button
       type="submit"
       [disabled]="loginForm.invalid"
-      class="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      class="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
     >
       Entrar
     </button>

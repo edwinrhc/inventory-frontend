@@ -1,6 +1,7 @@
 <div class="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow">
   <h2 class="text-2xl font-bold mb-4">Editar Producto</h2>
-  <form (ngSubmit)="onSubmit()" #f="ngForm">
+  <!-- marcamos todos los controles como touched antes de onSubmit -->
+  <form (ngSubmit)="f.form.markAllAsTouched(); onSubmit()" #f="ngForm">
     <!-- SKU -->
     <div class="mb-4">
       <label for="sku" class="block mb-1">SKU</label>
@@ -9,8 +10,12 @@
         name="sku"
         required
         [(ngModel)]="product.sku"
+        #sku="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       />
+      <div *ngIf="sku.invalid && sku.touched" class="text-red-500 text-sm">
+        El SKU es obligatorio.
+      </div>
     </div>
 
     <!-- Nombre -->
@@ -21,8 +26,12 @@
         name="name"
         required
         [(ngModel)]="product.name"
+        #name="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       />
+      <div *ngIf="name.invalid && name.touched" class="text-red-500 text-sm">
+        El nombre es obligatorio.
+      </div>
     </div>
 
     <!-- Descripción -->
@@ -33,9 +42,13 @@
         name="description"
         required
         [(ngModel)]="product.description"
+        #desc="ngModel"
         rows="3"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       ></textarea>
+      <div *ngIf="desc.invalid && desc.touched" class="text-red-500 text-sm">
+        La descripción es obligatoria.
+      </div>
     </div>
 
     <!-- Precio -->
@@ -47,10 +60,15 @@
         type="number"
         required
         [(ngModel)]="product.price"
+        #price="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       />
+      <div *ngIf="price.invalid && price.touched" class="text-red-500 text-sm">
+        El precio es obligatorio y debe ser un número.
+      </div>
     </div>
 
+    <!-- Tipo -->
     <div class="mb-4">
       <label for="productTypeId" class="block mb-1">Tipo de Producto</label>
       <select
@@ -58,11 +76,15 @@
         name="productTypeId"
         required
         [(ngModel)]="product.productTypeId"
+        #ptype="ngModel"
         class="w-full border rounded px-3 py-2 focus:ring transition"
       >
         <option value="" disabled>-- Selecciona un tipo --</option>
         <option *ngFor="let t of types" [value]="t.id">{{ t.name }}</option>
       </select>
+      <div *ngIf="ptype.invalid && ptype.touched" class="text-red-500 text-sm">
+        Debes elegir un tipo de producto.
+      </div>
     </div>
 
     <!-- Botones -->
@@ -70,13 +92,16 @@
       <button
         type="button"
         (click)="onCancel()"
-        class="px-4 py-2 rounded border hover:bg-gray-100 transition">
+        class="px-4 py-2 rounded border hover:bg-gray-100 transition"
+      >
         Cancelar
       </button>
       <button
         type="submit"
         [disabled]="f.invalid"
-        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+        class="px-4 py-2 bg-blue-600 text-white rounded transition
+               hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
         Actualizar
       </button>
     </div>
